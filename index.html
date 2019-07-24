@@ -210,6 +210,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -333,23 +343,16 @@
       
         
           
-            <h1 id="SpringCloud-Config-配置中心-实现配置自动刷新"><a href="#SpringCloud-Config-配置中心-实现配置自动刷新" class="headerlink" title="SpringCloud Config(配置中心)实现配置自动刷新"></a>SpringCloud Config(配置中心)实现配置自动刷新</h1><h3 id="一、实现原理"><a href="#一、实现原理" class="headerlink" title="一、实现原理"></a>一、实现原理</h3><p>1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件；</p>
-<p>2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会自动调用/bus-refresh接口。Bus就会通知config-server，config-server会发布更新消息到消息总线的消息队列中，其他服务订阅到该消息就会信息刷新，从而实现整个微服务进行自动刷新。</p>
-<h3 id="二：实现方式"><a href="#二：实现方式" class="headerlink" title="二：实现方式"></a>二：实现方式</h3><p><img src="/images/ConfigServerPic01.jpg" alt="配置文件中心服务架构审计"></p>
-<p>1、提交新的配置文件到远端git仓库，触发git远端仓库通过WebHook发送post请求给Config Server端的bus/refresh接口</p>
-<p>2、Config Server端接收到请求并发送给Spring Cloud Bus总线</p>
-<p>3、Spring Cloud bus接到消息并通知给连接到总线的微服务客户端</p>
-<p>4、微服务客户端接收到通知，请求Config Server端获取最新配置</p>
-<p>5、全部微服务客户端均获取到最新的配置</p>
-<h3 id="三：实现步骤"><a href="#三：实现步骤" class="headerlink" title="三：实现步骤"></a>三：实现步骤</h3><p>1、添加依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- config-server依赖 --&gt;</span><br><span class="line">&lt;dependency&gt;    </span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;    </span><br><span class="line">    &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt; </span><br><span class="line"></span><br><span class="line">&lt;!-- springcloud-bus依赖实现配置自动更新，rabbitmq --&gt;</span><br><span class="line">&lt;dependency&gt;    </span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;    </span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>2.配置文件Bootstrap.yml文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: config</span><br><span class="line">  cloud:        #config服务端，从git拉取数据</span><br><span class="line">    config:</span><br><span class="line">      server:</span><br><span class="line">        git:</span><br><span class="line">          # 配置git仓库的地址</span><br><span class="line">          uri: https://gitee.com/SpringCloud_Sell/config-repo</span><br><span class="line">          # git仓库的账号 </span><br><span class="line">          username: lly835@163.com</span><br><span class="line">          # git仓库的密码  </span><br><span class="line">          password: T#27h*E$cg@%&#125;j</span><br><span class="line">          #仓库下配置文件搜索路径 </span><br><span class="line">          basedir: /Users/admin/code/myProjects/java/imooc/SpringCloud_Sell/config/basedir</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:8761/eureka/</span><br><span class="line">management:</span><br><span class="line">  endpoints:</span><br><span class="line">    web:</span><br><span class="line">      expose: &quot;*&quot;</span><br></pre></td></tr></table></figure>
-
-<p>3、启动类添加加注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@EnableDiscoveryClient 注册发现中心</span><br><span class="line">@EnableConfigServer 配置文件中心</span><br></pre></td></tr></table></figure>
-          
+          SpringCloud Config(配置中心)实现配置自动刷新一、实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件；
+2、当远端git仓库配置文件发生改变,Spri
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/16/ConfigServer/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -467,32 +470,16 @@
       
         
           
-            <h1 id="SpringCloud-Eureka-服务的注册与发现"><a href="#SpringCloud-Eureka-服务的注册与发现" class="headerlink" title="SpringCloud-Eureka:服务的注册与发现"></a>SpringCloud-Eureka:服务的注册与发现</h1><h3 id="一、搭建服务注册中心"><a href="#一、搭建服务注册中心" class="headerlink" title="一、搭建服务注册中心"></a>一、搭建服务注册中心</h3><p>添加maven依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>启动类添加注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@EnableEurekaServer</span><br></pre></td></tr></table></figure>
-
-<p>配置文件配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8761</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: eureka</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: localhost</span><br><span class="line">  client:</span><br><span class="line">    #由于该应用为注册中心,所以设置为false,代表不向注册中心注册自己</span><br><span class="line">    register-with-eureka: false</span><br><span class="line">    #由于注册中心的职责就是维护服务实例,它并不需要去检索服务,所以也设置为false</span><br><span class="line">    fetch-registry: false</span><br><span class="line">    service-url:</span><br><span class="line">    defaultZone: http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span><br></pre></td></tr></table></figure>
-
-
-<p>启动服务</p>
-<h3 id="二、服务注册与服务发现"><a href="#二、服务注册与服务发现" class="headerlink" title="二、服务注册与服务发现"></a>二、服务注册与服务发现</h3><p>添加maven依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>启动类添加注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@EnableEurekaClient注解是基于spring-cloud-netflix依赖，只能eureka使用</span><br><span class="line">@EnableDiscoveryClient注解是基于spring-cloud-commons依赖，并且在classpath中实现</span><br><span class="line">它们的作用是一样的</span><br></pre></td></tr></table></figure>
-
-
-<p>配置文件配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      #注册中心的地址</span><br><span class="line">      #defaultZone: http://$&#123;eureka.instance.hostname&#125;:8761/eureka/ </span><br><span class="line">      defaultZone: http://localhost:8761/eureka/ </span><br><span class="line">  #instance:</span><br><span class="line">      #hostname: localhost</span><br><span class="line">server:</span><br><span class="line">  #当前服务端口号</span><br><span class="line">  port: 8762</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    #当前应用名称</span><br><span class="line">    name: service-hi</span><br></pre></td></tr></table></figure>
-
-
-          
+          SpringCloud-Eureka:服务的注册与发现一、搭建服务注册中心添加maven依赖
+1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;    &lt;artifactId&gt
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/15/EurekaServer/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
