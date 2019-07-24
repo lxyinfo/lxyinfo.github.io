@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="SpringCloud Config(配置中心)实现配置自动刷新实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的g">
+<meta name="description" content="实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会">
 <meta name="keywords" content="SpringCloud,Config">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringCloud Config(配置中心)实现配置自动刷新">
 <meta property="og:url" content="http://yoursite.com/2019/07/16/ConfigServer/index.html">
 <meta property="og:site_name" content="诸神">
-<meta property="og:description" content="SpringCloud Config(配置中心)实现配置自动刷新实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的g">
+<meta property="og:description" content="实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/ConfigServerPic01.jpg">
-<meta property="og:updated_time" content="2019-07-24T02:54:38.151Z">
+<meta property="og:updated_time" content="2019-07-24T03:00:25.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud Config(配置中心)实现配置自动刷新">
-<meta name="twitter:description" content="SpringCloud Config(配置中心)实现配置自动刷新实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的g">
+<meta name="twitter:description" content="实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会">
 <meta name="twitter:image" content="http://yoursite.com/images/ConfigServerPic01.jpg">
 
 
@@ -342,7 +342,7 @@
       
 
       
-        <h1 id="SpringCloud-Config-配置中心-实现配置自动刷新"><a href="#SpringCloud-Config-配置中心-实现配置自动刷新" class="headerlink" title="SpringCloud Config(配置中心)实现配置自动刷新"></a>SpringCloud Config(配置中心)实现配置自动刷新</h1><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件；</p>
+        <h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件；</p>
 <p>2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会自动调用/bus-refresh接口。Bus就会通知config-server，config-server会发布更新消息到消息总线的消息队列中，其他服务订阅到该消息就会信息刷新，从而实现整个微服务进行自动刷新。</p>
 <h3 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h3><p><img src="/images/ConfigServerPic01.jpg" alt="配置文件中心服务架构审计"></p>
 <p>1、提交新的配置文件到远端git仓库，触发git远端仓库通过WebHook发送post请求给Config Server端的bus/refresh接口</p>
@@ -519,7 +519,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringCloud-Config-配置中心-实现配置自动刷新"><span class="nav-number">1.</span> <span class="nav-text">SpringCloud Config(配置中心)实现配置自动刷新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">1.0.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现方式"><span class="nav-number">1.0.2.</span> <span class="nav-text">实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现步骤"><span class="nav-number">1.0.3.</span> <span class="nav-text">实现步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加依赖"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件Bootstrap-yml文件"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">配置文件Bootstrap.yml文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动类添加加注解"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">启动类添加加注解</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现方式"><span class="nav-number">2.</span> <span class="nav-text">实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现步骤"><span class="nav-number">3.</span> <span class="nav-text">实现步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加依赖"><span class="nav-number">3.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件Bootstrap-yml文件"><span class="nav-number">3.2.</span> <span class="nav-text">配置文件Bootstrap.yml文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动类添加加注解"><span class="nav-number">3.3.</span> <span class="nav-text">启动类添加加注解</span></a></li></ol></li></ol></div>
             
 
           </div>
