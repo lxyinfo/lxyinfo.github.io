@@ -335,7 +335,7 @@
           
             <h1 id="SpringCloud-Config-配置中心-实现配置自动刷新"><a href="#SpringCloud-Config-配置中心-实现配置自动刷新" class="headerlink" title="SpringCloud Config(配置中心)实现配置自动刷新"></a>SpringCloud Config(配置中心)实现配置自动刷新</h1><h3 id="一、实现原理"><a href="#一、实现原理" class="headerlink" title="一、实现原理"></a>一、实现原理</h3><p>1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件；</p>
 <p>2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会自动调用/bus-refresh接口。Bus就会通知config-server，config-server会发布更新消息到消息总线的消息队列中，其他服务订阅到该消息就会信息刷新，从而实现整个微服务进行自动刷新。</p>
-<h3 id="二：实现方式"><a href="#二：实现方式" class="headerlink" title="二：实现方式"></a>二：实现方式</h3><p><img src="images/ConfigServerPic01.jpg" alt="配置文件中心服务架构审计"></p>
+<h3 id="二：实现方式"><a href="#二：实现方式" class="headerlink" title="二：实现方式"></a>二：实现方式</h3><p><img src="/images/ConfigServerPic01.jpg" alt="配置文件中心服务架构审计"></p>
 <p>1、提交新的配置文件到远端git仓库，触发git远端仓库通过WebHook发送post请求给Config Server端的bus/refresh接口</p>
 <p>2、Config Server端接收到请求并发送给Spring Cloud Bus总线</p>
 <p>3、Spring Cloud bus接到消息并通知给连接到总线的微服务客户端</p>
