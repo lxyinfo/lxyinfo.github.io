@@ -88,7 +88,7 @@
 <meta property="og:description" content="实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/ConfigServerPic01.jpg">
-<meta property="og:updated_time" content="2019-08-06T09:06:58.132Z">
+<meta property="og:updated_time" content="2019-08-12T03:36:47.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud Config(配置中心)实现配置自动刷新">
 <meta name="twitter:description" content="实现原理1、ConfigServer(配置中心服务端)从远端git拉取配置文件并在本地git一份，ConfigClient（微服务）从ConfigServer端获取自己对应 配置文件； 2、当远端git仓库配置文件发生改变,Spring Cloud Bus会向外提供一个http接口/bus/refresh。我们将这个接口配置到远程的git仓库的webhook上，当git上的文件内容发生变动时，就会">
@@ -412,7 +412,7 @@
 <li>spring.cloud.config.profile：对应{profile}部分</li>
 <li>spring.cloud.config.label：对应git的分支。如果配置中心使用的是本地存储，则该参数无用</li>
 <li>spring.cloud.config.uri：当不采用注册中心时，直接访问配置中心的具体地址</li>
-<li>spring.cloud.config.discovery.enable: 开启配置信息发现</li>
+<li>spring.cloud.config.discovery.enable: 开启配置信息发现（开启Config服务发现支持）</li>
 <li>spring.cloud.config.discovery.service-id：指定配置中心的service-id，便于扩展为高可用配置集群。</li>
 <li>eureka.client.service-url.defaultZone: 服务注册发现中心地址</li>
 <li>management.endpoints.web.exposure.include: 允许外部访问</li>
@@ -469,6 +469,10 @@
 <td align="center">当有分支或标签被删除时触发</td>
 </tr>
 </tbody></table>
+<p>wget <a href="http://www.rabbitmq.com/releases/erlang/erlang-18.3-1.el7.centos.x86_64.rpm" target="_blank" rel="noopener">www.rabbitmq.com/releases/erlang/erlang-18.3-1.el7.centos.x86_64.rpm</a></p>
+<p>wget <a href="http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm" target="_blank" rel="noopener">http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm</a></p>
+<p>wget <a href="http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.noarch.rpm" target="_blank" rel="noopener">www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.noarch.rpm</a></p>
+<p><a href="http://localhost:8002/actuator/bus-refresh" target="_blank" rel="noopener">http://localhost:8002/actuator/bus-refresh</a></p>
 
       
     </div>
@@ -511,8 +515,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/30/APIGateWay/" rel="prev" title="SpringCloud-GateWay：网关对接注册中心">
-                SpringCloud-GateWay：网关对接注册中心 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/24/RabbitMQ下载安装/" rel="prev" title="RabbitMQ 的下载与安装">
+                RabbitMQ 的下载与安装 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -592,7 +596,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -614,7 +618,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
