@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Redis,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Redis学习（一） redis特性  速度快 持久化 多种数据结构 支持多种编辑语言 功能丰富 简单 主从复制 高可用、分布式  特性（1）-速度快    速度：10w OPS    存储位置： 存储在内存中    语言：     C语言编写    线程模型： 单线程 特性（2）-持久化（断电不丢数据）redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上特性（3）-多种数据结构 St">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习（一）">
+<meta property="og:url" content="http://yoursite.com/2019/07/28/Redis开发与运维/index.html">
+<meta property="og:site_name" content="诸神">
+<meta property="og:description" content="Redis学习（一） redis特性  速度快 持久化 多种数据结构 支持多种编辑语言 功能丰富 简单 主从复制 高可用、分布式  特性（1）-速度快    速度：10w OPS    存储位置： 存储在内存中    语言：     C语言编写    线程模型： 单线程 特性（2）-持久化（断电不丢数据）redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上特性（3）-多种数据结构 St">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-27T07:06:51.322Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis学习（一）">
+<meta name="twitter:description" content="Redis学习（一） redis特性  速度快 持久化 多种数据结构 支持多种编辑语言 功能丰富 简单 主从复制 高可用、分布式  特性（1）-速度快    速度：10w OPS    存储位置： 存储在内存中    语言：     C语言编写    线程模型： 单线程 特性（2）-持久化（断电不丢数据）redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上特性（3）-多种数据结构 St">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/28/Redis开发与运维/">
+
+
+
+
+
+  <title>Redis学习（一） | 诸神</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诸神</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">强风吹拂，逆风而上！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/28/Redis开发与运维/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李晓阳">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/blog-logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诸神">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis学习（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-28T00:00:00+08:00">
+                2019-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Redis学习（一）</p>
+<p>redis特性</p>
+<ul>
+<li>速度快</li>
+<li>持久化</li>
+<li>多种数据结构</li>
+<li>支持多种编辑语言</li>
+<li>功能丰富</li>
+<li>简单</li>
+<li>主从复制</li>
+<li>高可用、分布式</li>
+</ul>
+<p>特性（1）-速度快<br>    速度：10w OPS<br>    存储位置： 存储在内存中<br>    语言：     C语言编写<br>    线程模型： 单线程</p>
+<p>特性（2）-持久化（断电不丢数据）<br>redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上<br>特性（3）-多种数据结构</p>
+<p>String/Blobs/Bitmaps<br>Hash Tables(objects)<br>Linked Lists<br>Sets<br>Sorted Sets</p>
+<p>衍生类型</p>
+<p>Bitmaps（位图）<br>HyperLogLog:超小内存唯一值计算（12K DAU计算）<br>GEO: 地理信息定位（经纬度 O2O位置计算）</p>
+<p>特性（4）-支持多种客户端语言</p>
+<p>java php python nodejs ruby lua</p>
+<p>特性（5）- 功能丰富</p>
+<h4 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h4><h4 id="Lua脚本"><a href="#Lua脚本" class="headerlink" title="Lua脚本"></a>Lua脚本</h4><h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><h4 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h4><h3 id="特性（6）-简单"><a href="#特性（6）-简单" class="headerlink" title="特性（6）- 简单"></a>特性（6）- 简单</h3><p>23000 lines of code<br>3.0引入主从后增加为50000行<br>不依赖外部库<br>单线程模型</p>
+<h3 id="特性（7）-主从复制"><a href="#特性（7）-主从复制" class="headerlink" title="特性（7）-主从复制"></a>特性（7）-主从复制</h3><h3 id="特性（8）-高可用、分布式"><a href="#特性（8）-高可用、分布式" class="headerlink" title="特性（8）-高可用、分布式"></a>特性（8）-高可用、分布式</h3><p>高可用 （Redis-Sentinelv2.8支持高可用）<br>分布式 （Redis-Clusterv3.0支持分布式）</p>
+<h2 id="Redis典型应用场景"><a href="#Redis典型应用场景" class="headerlink" title="Redis典型应用场景"></a>Redis典型应用场景</h2><h3 id="缓存系统"><a href="#缓存系统" class="headerlink" title="缓存系统"></a>缓存系统</h3><p>App Server –&gt; cache（redis缓存） –&gt; Storage(存储)</p>
+<h3 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h3><p>转发、评论计数</p>
+<h3 id="消息队列系统-简单功能"><a href="#消息队列系统-简单功能" class="headerlink" title="消息队列系统 (简单功能)"></a>消息队列系统 (简单功能)</h3><p>Producer –&gt; message –&gt; Consumer </p>
+<h3 id="排行榜"><a href="#排行榜" class="headerlink" title="排行榜"></a>排行榜</h3><p>粉丝数 关注数 </p>
+<h3 id="社交网络"><a href="#社交网络" class="headerlink" title="社交网络"></a>社交网络</h3><h3 id="实时系统"><a href="#实时系统" class="headerlink" title="实时系统"></a>实时系统</h3><h2 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h2><ul>
+<li><p>Redis安装</p>
+<p>  Linux</p>
+<p>  wget <a href="http://download.redis.io/releases/redis-3.0.7.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-3.0.7.tar.gz</a> （3.0最稳定版本）</p>
+<p>  tar -xzf redis-3.0.7.tar.gz （解压缩）</p>
+<p>  ln -s redis-3.0.7 redis (建立软连接)</p>
+</li>
+<li><p>可执行文件说明</p>
+<p>  redis-server:redis服务器<br>  redis-cli:redis命令行客户端<br>  redis-benchmark：redis性能测试工具<br>  redis-check-aof:AOF文件修复工具<br>  redis-check-dump:RDB文件检查工具<br>  redis-sentinel:Sentinle服务器（2.8以后）</p>
+</li>
+<li><p>三种启动方法</p>
+<p>  最简启动 redis-server<br>  动态参数启动  redis-server  –port 6380<br>  配置文件启动 redis-server [configPath]<br>  比较</p>
+<pre><code>生成环境选择配置启动
+单机多实例配置文件可以用端口区分开</code></pre></li>
+</ul>
+<p>验证：<br>    ps -ef | grep redis<br>    netstat -antpl | grep redis<br>    redis-cli -h [ip] -p [port] ping</p>
+<ul>
+<li><p>简单客户端连接</p>
+<p>  redis-cli -h [ip] -p [port]</p>
+</li>
+</ul>
+<p>##Redis客户端返回值<br>    状态回复 ping Pong<br>    错误提示 hget<br>    整数回复：incr hello<br>    字符串回复：<br>    多行字符串回复：mget hello foo </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/27/RabbitMQ下载安装/" rel="next" title="RabbitMQ 的下载与安装">
+                <i class="fa fa-chevron-left"></i> RabbitMQ 的下载与安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/29/RocketMq下载安装/" rel="prev" title="RocketMQ下载安装和配置">
+                RocketMQ下载安装和配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/blog-logo.jpg" alt="李晓阳">
+            
+              <p class="site-author-name" itemprop="name">李晓阳</p>
+              <p class="site-description motion-element" itemprop="description">很多事情不是我们做不到、学不会，而是我们压根就没有坚持去做、坚持去学！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#发布订阅"><span class="nav-number">1.</span> <span class="nav-text">发布订阅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lua脚本"><span class="nav-number">2.</span> <span class="nav-text">Lua脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务"><span class="nav-number">3.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pipeline"><span class="nav-number">4.</span> <span class="nav-text">pipeline</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#特性（6）-简单"><span class="nav-number"></span> <span class="nav-text">特性（6）- 简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性（7）-主从复制"><span class="nav-number"></span> <span class="nav-text">特性（7）-主从复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性（8）-高可用、分布式"><span class="nav-number"></span> <span class="nav-text">特性（8）-高可用、分布式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis典型应用场景"><span class="nav-number"></span> <span class="nav-text">Redis典型应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存系统"><span class="nav-number"></span> <span class="nav-text">缓存系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计数器"><span class="nav-number"></span> <span class="nav-text">计数器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列系统-简单功能"><span class="nav-number"></span> <span class="nav-text">消息队列系统 (简单功能)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排行榜"><span class="nav-number"></span> <span class="nav-text">排行榜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#社交网络"><span class="nav-number"></span> <span class="nav-text">社交网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时系统"><span class="nav-number"></span> <span class="nav-text">实时系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis安装"><span class="nav-number"></span> <span class="nav-text">Redis安装</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李晓阳</span>
+
+  
+</div>
+
+
+  <div class="powered-by">专属</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">博客 &mdash; <a class="theme-link" target="_blank" href="https://lxyinfo.github.io">lxyinfo.github.io</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

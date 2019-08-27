@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="SpringCloud,EureKa,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="Redis学习（一） redis特性  速度快 持久化 多种数据结构 支持多种编辑语言 功能丰富 简单 主从复制 高可用、分布式  特性（1）-速度快    速度：10w OPS    存储位置： 存储在内存中    语言：     C语言编写    线程模型： 单线程 特性（2）-持久化（断电不丢数据）redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上特性（3）-多种数据结构 St">
+<meta name="description" content="搭建服务注册中心添加maven依赖1234&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-cloud-starter-netflix-eureka-server&amp;lt;/artifactId&amp;gt;&amp;lt;/dependency&amp;gt">
+<meta name="keywords" content="SpringCloud,EureKa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="诸神">
-<meta property="og:url" content="http://yoursite.com/2019/08/19/Redis开发与运维/index.html">
+<meta property="og:title" content="SpringCloud-Eureka:服务的注册与发现">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/EurekaServer/index.html">
 <meta property="og:site_name" content="诸神">
-<meta property="og:description" content="Redis学习（一） redis特性  速度快 持久化 多种数据结构 支持多种编辑语言 功能丰富 简单 主从复制 高可用、分布式  特性（1）-速度快    速度：10w OPS    存储位置： 存储在内存中    语言：     C语言编写    线程模型： 单线程 特性（2）-持久化（断电不丢数据）redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上特性（3）-多种数据结构 St">
+<meta property="og:description" content="搭建服务注册中心添加maven依赖1234&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-cloud-starter-netflix-eureka-server&amp;lt;/artifactId&amp;gt;&amp;lt;/dependency&amp;gt">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-19T01:01:55.464Z">
+<meta property="og:updated_time" content="2019-08-27T07:06:21.568Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="诸神">
-<meta name="twitter:description" content="Redis学习（一） redis特性  速度快 持久化 多种数据结构 支持多种编辑语言 功能丰富 简单 主从复制 高可用、分布式  特性（1）-速度快    速度：10w OPS    存储位置： 存储在内存中    语言：     C语言编写    线程模型： 单线程 特性（2）-持久化（断电不丢数据）redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上特性（3）-多种数据结构 St">
+<meta name="twitter:title" content="SpringCloud-Eureka:服务的注册与发现">
+<meta name="twitter:description" content="搭建服务注册中心添加maven依赖1234&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-cloud-starter-netflix-eureka-server&amp;lt;/artifactId&amp;gt;&amp;lt;/dependency&amp;gt">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/19/Redis开发与运维/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/26/EurekaServer/">
 
 
 
 
 
-  <title> | 诸神</title>
+  <title>SpringCloud-Eureka:服务的注册与发现 | 诸神</title>
   
 
 
@@ -272,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/19/Redis开发与运维/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/EurekaServer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李晓阳">
@@ -289,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">SpringCloud-Eureka:服务的注册与发现</h1>
         
 
         <div class="post-meta">
@@ -301,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-19T09:01:55+08:00">
-                2019-08-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T00:00:00+08:00">
+                2019-07-26
               </time>
             
 
@@ -311,6 +312,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringCloud/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringCloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -339,56 +362,19 @@
       
 
       
-        <p>Redis学习（一）</p>
-<p>redis特性</p>
-<ul>
-<li>速度快</li>
-<li>持久化</li>
-<li>多种数据结构</li>
-<li>支持多种编辑语言</li>
-<li>功能丰富</li>
-<li>简单</li>
-<li>主从复制</li>
-<li>高可用、分布式</li>
-</ul>
-<p>特性（1）-速度快<br>    速度：10w OPS<br>    存储位置： 存储在内存中<br>    语言：     C语言编写<br>    线程模型： 单线程</p>
-<p>特性（2）-持久化（断电不丢数据）<br>redis所有数据保存在内存中，对数据的更新将异步的保存在磁盘上<br>特性（3）-多种数据结构</p>
-<p>String/Blobs/Bitmaps<br>Hash Tables(objects)<br>Linked Lists<br>Sets<br>Sorted Sets</p>
-<p>衍生类型</p>
-<p>Bitmaps（位图）<br>HyperLogLog:超小内存唯一值计算（12K DAU计算）<br>GEO: 地理信息定位（经纬度 O2O位置计算）</p>
-<p>特性（4）-支持多种客户端语言</p>
-<p>java php python nodejs ruby lua</p>
-<p>特性（5）- 功能丰富</p>
-<h4 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h4><h4 id="Lua脚本"><a href="#Lua脚本" class="headerlink" title="Lua脚本"></a>Lua脚本</h4><h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><h4 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h4><h3 id="特性（6）-简单"><a href="#特性（6）-简单" class="headerlink" title="特性（6）- 简单"></a>特性（6）- 简单</h3><p>23000 lines of code<br>3.0引入主从后增加为50000行<br>不依赖外部库<br>单线程模型</p>
-<h3 id="特性（7）-主从复制"><a href="#特性（7）-主从复制" class="headerlink" title="特性（7）-主从复制"></a>特性（7）-主从复制</h3><h3 id="特性（8）-高可用、分布式"><a href="#特性（8）-高可用、分布式" class="headerlink" title="特性（8）-高可用、分布式"></a>特性（8）-高可用、分布式</h3><p>高可用 （Redis-Sentinelv2.8支持高可用）<br>分布式 （Redis-Clusterv3.0支持分布式）</p>
-<h2 id="Redis典型应用场景"><a href="#Redis典型应用场景" class="headerlink" title="Redis典型应用场景"></a>Redis典型应用场景</h2><h3 id="缓存系统"><a href="#缓存系统" class="headerlink" title="缓存系统"></a>缓存系统</h3><p>App Server –&gt; cache（redis缓存） –&gt; Storage(存储)</p>
-<h3 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h3><p>转发、评论计数</p>
-<h3 id="消息队列系统-简单功能"><a href="#消息队列系统-简单功能" class="headerlink" title="消息队列系统 (简单功能)"></a>消息队列系统 (简单功能)</h3><p>Producer –&gt; message –&gt; Consumer </p>
-<h3 id="排行榜"><a href="#排行榜" class="headerlink" title="排行榜"></a>排行榜</h3><p>粉丝数 关注数 </p>
-<h3 id="社交网络"><a href="#社交网络" class="headerlink" title="社交网络"></a>社交网络</h3><h3 id="实时系统"><a href="#实时系统" class="headerlink" title="实时系统"></a>实时系统</h3><h2 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h2><ul>
-<li><p>Redis安装</p>
-<p>  Linux</p>
-<p>  wget <a href="http://download.redis.io/releases/redis-3.0.7.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-3.0.7.tar.gz</a> （3.0最稳定版本）</p>
-<p>  tar -xzf redis-3.0.7.tar.gz （解压缩）</p>
-<p>  ln -s redis-3.0.7 redis (建立软连接)</p>
-</li>
-</ul>
-<ul>
-<li><p>可执行文件说明</p>
-<p>  redis-server:redis服务器<br>  redis-cli:redis命令行客户端<br>  redis-benchmark：redis性能测试工具<br>  redis-check-aof:AOF文件修复工具<br>  redis-check-dump:RDB文件检查工具<br>  redis-sentinel:Sentinle服务器（2.8以后）</p>
-</li>
-<li><p>三种启动方法</p>
-<p>  最简启动 redis-server<br>  动态参数启动  redis-server  –port 6380<br>  配置文件启动 redis-server [configPath]<br>  比较</p>
-<pre><code>生成环境选择配置启动
-单机多实例配置文件可以用端口区分开</code></pre></li>
-</ul>
-<p>验证：<br>    ps -ef | grep redis<br>    netstat -antpl | grep redis<br>    redis-cli -h [ip] -p [port] ping</p>
-<ul>
-<li><p>简单客户端连接</p>
-<p>  redis-cli -h [ip] -p [port]</p>
-</li>
-</ul>
-<p>##Redis客户端返回值<br>    状态回复 ping Pong<br>    错误提示 hget<br>    整数回复：incr hello<br>    字符串回复：<br>    多行字符串回复：mget hello foo </p>
+        <h3 id="搭建服务注册中心"><a href="#搭建服务注册中心" class="headerlink" title="搭建服务注册中心"></a>搭建服务注册中心</h3><h4 id="添加maven依赖"><a href="#添加maven依赖" class="headerlink" title="添加maven依赖"></a>添加maven依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>​      </p>
+<h4 id="启动类添加注解"><a href="#启动类添加注解" class="headerlink" title="启动类添加注解"></a>启动类添加注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@EnableEurekaServer</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置文件配置"><a href="#配置文件配置" class="headerlink" title="配置文件配置"></a>配置文件配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8761</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: eureka</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: localhost</span><br><span class="line">  client:</span><br><span class="line">    #由于该应用为注册中心,所以设置为false,代表不向注册中心注册自己</span><br><span class="line">    register-with-eureka: false</span><br><span class="line">    #由于注册中心的职责就是维护服务实例,它并不需要去检索服务,所以也设置为false</span><br><span class="line">    fetch-registry: false</span><br><span class="line">    service-url:</span><br><span class="line">    defaultZone: http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><h3 id="服务注册与服务发现"><a href="#服务注册与服务发现" class="headerlink" title="服务注册与服务发现"></a>服务注册与服务发现</h3><h4 id="添加maven依赖-1"><a href="#添加maven依赖-1" class="headerlink" title="添加maven依赖"></a>添加maven依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动类添加注解-1"><a href="#启动类添加注解-1" class="headerlink" title="启动类添加注解"></a>启动类添加注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@EnableEurekaClient注解是基于spring-cloud-netflix依赖，只能eureka使用</span><br><span class="line">@EnableDiscoveryClient注解是基于spring-cloud-commons依赖，并且在classpath中实现</span><br><span class="line">它们的作用是一样的</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置文件配置-1"><a href="#配置文件配置-1" class="headerlink" title="配置文件配置"></a>配置文件配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      #注册中心的地址</span><br><span class="line">      #defaultZone: http://$&#123;eureka.instance.hostname&#125;:8761/eureka/ </span><br><span class="line">      defaultZone: http://localhost:8761/eureka/ </span><br><span class="line">  #instance:</span><br><span class="line">      #hostname: localhost</span><br><span class="line">server:</span><br><span class="line">  #当前服务端口号</span><br><span class="line">  port: 8762</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    #当前应用名称</span><br><span class="line">    name: service-hi</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -404,6 +390,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/SpringCloud/" rel="tag"># SpringCloud</a>
+          
+            <a href="/tags/EureKa/" rel="tag"># EureKa</a>
+          
+        </div>
+      
 
       
       
@@ -413,8 +407,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/16/RocketMq下载安装/" rel="next" title>
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2019/07/25/APIGateWay/" rel="next" title="SpringCloud-GateWay：网关对接注册中心">
+                <i class="fa fa-chevron-left"></i> SpringCloud-GateWay：网关对接注册中心
               </a>
             
           </div>
@@ -423,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/27/信息系统项目管理师—案例基础常见名词解释/" rel="prev" title>
-                 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/27/RabbitMQ下载安装/" rel="prev" title="RabbitMQ 的下载与安装">
+                RabbitMQ 的下载与安装 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -504,7 +498,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -515,7 +509,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -526,7 +520,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -559,7 +553,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#发布订阅"><span class="nav-number">1.</span> <span class="nav-text">发布订阅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lua脚本"><span class="nav-number">2.</span> <span class="nav-text">Lua脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务"><span class="nav-number">3.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pipeline"><span class="nav-number">4.</span> <span class="nav-text">pipeline</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#特性（6）-简单"><span class="nav-number"></span> <span class="nav-text">特性（6）- 简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性（7）-主从复制"><span class="nav-number"></span> <span class="nav-text">特性（7）-主从复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性（8）-高可用、分布式"><span class="nav-number"></span> <span class="nav-text">特性（8）-高可用、分布式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis典型应用场景"><span class="nav-number"></span> <span class="nav-text">Redis典型应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存系统"><span class="nav-number"></span> <span class="nav-text">缓存系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计数器"><span class="nav-number"></span> <span class="nav-text">计数器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列系统-简单功能"><span class="nav-number"></span> <span class="nav-text">消息队列系统 (简单功能)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排行榜"><span class="nav-number"></span> <span class="nav-text">排行榜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#社交网络"><span class="nav-number"></span> <span class="nav-text">社交网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时系统"><span class="nav-number"></span> <span class="nav-text">实时系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis安装"><span class="nav-number"></span> <span class="nav-text">Redis安装</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建服务注册中心"><span class="nav-number">1.</span> <span class="nav-text">搭建服务注册中心</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加maven依赖"><span class="nav-number">1.1.</span> <span class="nav-text">添加maven依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动类添加注解"><span class="nav-number">1.2.</span> <span class="nav-text">启动类添加注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件配置"><span class="nav-number">1.3.</span> <span class="nav-text">配置文件配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动服务"><span class="nav-number">1.4.</span> <span class="nav-text">启动服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务注册与服务发现"><span class="nav-number">2.</span> <span class="nav-text">服务注册与服务发现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加maven依赖-1"><span class="nav-number">2.1.</span> <span class="nav-text">添加maven依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动类添加注解-1"><span class="nav-number">2.2.</span> <span class="nav-text">启动类添加注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件配置-1"><span class="nav-number">2.3.</span> <span class="nav-text">配置文件配置</span></a></li></ol></li></ol></div>
             
 
           </div>
